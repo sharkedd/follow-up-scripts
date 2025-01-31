@@ -4,7 +4,12 @@ const colConditions = [
 ];
 
 const criticalValues = [
-  ["STELLANTIS CHILE S.A."], //CLIENTE OT
+  [
+    "STELLANTIS CHILE S.A.",
+    "BRUNO CHIARELLA .",
+    "AUTOMOTORES FRANCO CHILENA SA . .",
+    "CRISTIAN ANDRÉS AVILA HERNÍQUEZ",
+  ], //CLIENTE OT
   ["MACARENA ROJAS"], // RECEPCIONISTAS
 ];
 
@@ -27,16 +32,22 @@ export function filtrarFila(array) {
 
 export function seleccionarFila(array) {
   const indexC = rowNames.indexOf("C");
-  if (indexC == -1) {
+  const indexB = rowNames.indexOf("B");
+  if (indexC == -1 || indexB == -1) {
     console.log("Índice no encontrado");
     return false;
   }
 
-  if (array[indexC] === "Factura Electrónica") {
+  if (
+    array[indexC] === "Factura Electrónica" &&
+    array[indexB] === "27-01-2025 0:00:00"
+  ) {
     return true;
   }
 
-  console.log(`FILA ELIMINADA POR NO CONTENER VALOR ${array[indexC]}`);
+  console.log(
+    `FILA ELIMINADA POR NO CONTENER VALOR ${array[indexC]} O NO SER DE LA FECHA ${array[indexB]}`
+  );
   return false;
 }
 
