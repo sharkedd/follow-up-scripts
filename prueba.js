@@ -76,16 +76,19 @@ for (let row = 1; row <= range.e.r; row++) {
 console.log(`Se modificaron ${rowsModified} columnas.`);
 console.log(`Se eliminaron ${rowsDeleted} filas.`);
 
-// Transformar Array y agregar en nuevo libro
-const newSheet = XLSX.utils.aoa_to_sheet(newSheetData);
-XLSX.utils.book_append_sheet(newWorkbook, newSheet, "Filas Copiadas");
+const newFilePath = "excel/filas_copiadas.xlsx";
 
-// **Eliminar el archivo si ya existe**
-const newFilePath = "./excel/filas_copiadas.xlsx";
-if (fs.existsSync(newFilePath)) {
-  fs.unlinkSync(newFilePath); // Borra el archivo antes de escribirlo de nuevo
-}
+fs.unlink(newFilePath, (err) => {
+  if (err && err.code !== "ENOENT") {
+    console.error("Error al eliminar el archivo:", err);
+    return;
+  }
 
-// Guardar nuevo libro
-XLSX.writeFile(newWorkbook, newFilePath);
-console.log(`Excel filtrado almacenado en ${newFilePath}`);
+  // Crear y guardar el nuevo archivo Excel
+  const newWorkbook = XLSX.utils.book_new();
+  const newSheet = XLSX.utils.aoa_to_sheet(newSheetData);
+  XLSX.utils.book_append_sheet(newWorkbook, newSheet, "Filas Copiadas");
+  XLSX.writeFile(newWorkbook, newFilePath);
+
+  console.log(`Excel filtrado almacenado en ${newFilePath}`);
+});

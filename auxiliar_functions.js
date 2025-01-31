@@ -1,8 +1,17 @@
+// SÓLO SE TOMARAN LAS FILAS QUE CONTENGAN LOS SIGUIENTES VALORES
+const fecha_facturacion = "27-01-2025 0:00:00";
+const tipo_documento = "Factura Electrónica";
+
+// SON AQUELLAS COLUMNAS EN LAS QUE SE BUSCARAN LOS VALORES CRÍTICOS
 const colConditions = [
   "J", // CLIENTE OT
   "BM", // RECEPCIONISTA
 ];
 
+// VALORES QUE SE UTILIZARÁN PARA FILTRAR LAS TABLAS
+// FILAS CON ESTOS VALORES QUEDARÁN ELIMINADAS
+// CADA ARRAY DENTRO CORRESPONDE A UNA COLUMNA, EJ:
+// LOS VALORES DESDE STELLANTIS HASTA EL FINAL DEL ARRAY, SERÁN BUSCADOS EN LA COLUMNA J,
 const criticalValues = [
   [
     "STELLANTIS CHILE S.A.",
@@ -10,7 +19,7 @@ const criticalValues = [
     "AUTOMOTORES FRANCO CHILENA SA . .",
     "CRISTIAN ANDRÉS AVILA HERNÍQUEZ",
   ], //CLIENTE OT
-  ["MACARENA ROJAS"], // RECEPCIONISTAS
+  ["MACARENA ROJAS ", "MACARENA ROJAS"], // RECEPCIONISTAS
 ];
 
 export function filtrarFila(array) {
@@ -38,16 +47,20 @@ export function seleccionarFila(array) {
     return false;
   }
 
-  if (
-    array[indexC] === "Factura Electrónica" &&
-    array[indexB] === "27-01-2025 0:00:00"
-  ) {
+  if (array[indexC] === tipo_documento && array[indexB] === fecha_facturacion) {
     return true;
   }
 
-  console.log(
-    `FILA ELIMINADA POR NO CONTENER VALOR ${array[indexC]} O NO SER DE LA FECHA ${array[indexB]}`
-  );
+  if (!array[indexC] === "Factura Electrónica") {
+    console.log(
+      `Fila eliminada por contener valor ${array[indexC]} en vez de Factura Electrónica`
+    );
+  }
+
+  if (!array[indexB] === "28-01-2025 0:00:00") {
+    console.log(`Fila eliminada por ser de la fecha ${array[indexB]}`);
+  }
+
   return false;
 }
 
