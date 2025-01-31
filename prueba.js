@@ -1,14 +1,11 @@
 import * as XLSX from "xlsx";
 import fs from "fs";
-import {
-  filtrarFila,
-  rowNames,
-  seleccionarFila,
-} from "./auxiliar_functions.js";
+import { filtrarFila, seleccionarFila } from "./auxiliar_functions.js";
+
+import { filePath, newFilePath, newExcelName, rowNames } from "./constants.js";
 
 // Abrir el archivo original
 // EJ: "./excel/base de datos 21 y 22 de enero.xlsx";
-const filePath = "./excel/base de datos 27 y 28 de enero.xlsx";
 
 // Verificar si el archivo existe
 if (!fs.existsSync(filePath)) {
@@ -76,8 +73,6 @@ for (let row = 1; row <= range.e.r; row++) {
 console.log(`Se modificaron ${rowsModified} columnas.`);
 console.log(`Se eliminaron ${rowsDeleted} filas.`);
 
-const newFilePath = "excel/filas_copiadas.xlsx";
-
 fs.unlink(newFilePath, (err) => {
   if (err && err.code !== "ENOENT") {
     console.error("Error al eliminar el archivo:", err);
@@ -87,7 +82,7 @@ fs.unlink(newFilePath, (err) => {
   // Crear y guardar el nuevo archivo Excel
   const newWorkbook = XLSX.utils.book_new();
   const newSheet = XLSX.utils.aoa_to_sheet(newSheetData);
-  XLSX.utils.book_append_sheet(newWorkbook, newSheet, "Filas Copiadas");
+  XLSX.utils.book_append_sheet(newWorkbook, newSheet, newExcelName);
   XLSX.writeFile(newWorkbook, newFilePath);
 
   console.log(`Excel filtrado almacenado en ${newFilePath}`);
