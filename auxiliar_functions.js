@@ -1,6 +1,7 @@
 // SÓLO SE TOMARAN LAS FILAS QUE CONTENGAN LOS SIGUIENTES VALORES
 import {
   fecha_facturacion,
+  fecha_facturacion2,
   tipo_documento,
   colConditions,
   criticalValues,
@@ -32,17 +33,25 @@ export function seleccionarFila(array) {
     return false;
   }
 
-  if (array[indexC] === tipo_documento && array[indexB] === fecha_facturacion) {
+  if (
+    /*array[indexC] === tipo_documento && */ array[indexB] ===
+      fecha_facturacion ||
+    array[indexB] === fecha_facturacion2
+  ) {
     return true;
   }
 
-  if (!array[indexC] === "Factura Electrónica") {
+  // Condiciones creadas para entregar información sobre eliminación
+  if (!array[indexC] === tipo_documento) {
     console.log(
       `Fila eliminada por contener valor ${array[indexC]} en vez de Factura Electrónica`
     );
   }
 
-  if (!array[indexB] === "28-01-2025 0:00:00") {
+  if (
+    !array[indexB] === fecha_facturacion ||
+    !array[indexB] === fecha_facturacion2
+  ) {
     console.log(`Fila eliminada por ser de la fecha ${array[indexB]}`);
   }
 
