@@ -9,6 +9,7 @@ import {
 } from "./constants.js";
 
 export function filtrarFila(array) {
+  if (!array.length) return false;
   for (let i = 0; i < colConditions.length; i++) {
     const rowName = colConditions[i];
     const valueIndex = rowNames.indexOf(rowName);
@@ -33,11 +34,10 @@ export function seleccionarFila(array) {
     return false;
   }
 
-  if (
-    /*array[indexC] === tipo_documento && */ array[indexB] ===
-      fecha_facturacion ||
-    array[indexB] === fecha_facturacion2
-  ) {
+  const validDate =
+    array[indexB] === fecha_facturacion || array[indexB] === fecha_facturacion2;
+
+  if (array[indexC] === tipo_documento && validDate) {
     return true;
   }
 
